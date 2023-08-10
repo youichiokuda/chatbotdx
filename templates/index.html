@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
+    <title>チャットボット</title>
 </head>
 <body>
     <div id="chat-box">
     </div>
-    <textarea id="user-input" placeholder="Type your message..."></textarea>
-    <button onclick="sendMessage()">Send</button>
+    <textarea id="user-input" placeholder="メッセージを入力してください..."></textarea>
+    <button onclick="sendMessage()">送信</button>
 
     <script>
         function sendMessage() {
             const userInput = document.getElementById('user-input').value;
             const chatBox = document.getElementById('chat-box');
             
-            chatBox.innerHTML += `<div>User: ${userInput}</div>`;
+            chatBox.innerHTML += `<div>ユーザー: ${userInput}</div>`;
             
             fetch('http://127.0.0.1:5000/chat', {
                 method: 'POST',
@@ -25,9 +25,18 @@
                 },
                 body: JSON.stringify({ user_input: userInput })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('ネットワークの応答が正しくありません');
+                }
+                return response.json();
+            })
             .then(data => {
-                chatBox.innerHTML += `<div>Bot: ${data.reply}</div>`;
+                chatBox.innerHTML += `<div>ボット: ${data.reply}</div>`;
+            })
+            .catch(error => {
+                console.error('フェッチ操作に問題がありました:', error.message);
+                chatBox.innerHTML += `<div>ボット: 申し訳ございません、リクエストの処理中にエラーが発生しました。</div>`;
             });
             
             document.getElementById('user-input').value = '';
