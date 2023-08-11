@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チャットボット</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <div id="chat-box">
@@ -11,36 +12,6 @@
     <textarea id="user-input" placeholder="メッセージを入力してください..."></textarea>
     <button onclick="sendMessage()">送信</button>
 
-    <script>
-        function sendMessage() {
-            const userInput = document.getElementById('user-input').value;
-            const chatBox = document.getElementById('chat-box');
-            
-            chatBox.innerHTML += `<div>ユーザー: ${userInput}</div>`;
-            
-            fetch('http://127.0.0.1:5000/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ user_input: userInput })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('ネットワークの応答が正しくありません');
-                }
-                return response.json();
-            })
-            .then(data => {
-                chatBox.innerHTML += `<div>ボット: ${data.reply}</div>`;
-            })
-            .catch(error => {
-                console.error('フェッチ操作に問題がありました:', error.message);
-                chatBox.innerHTML += `<div>ボット: 申し訳ございません、リクエストの処理中にエラーが発生しました。</div>`;
-            });
-            
-            document.getElementById('user-input').value = '';
-        }
-    </script>
+    <script src="/static/script.js"></script>
 </body>
 </html>
