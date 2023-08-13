@@ -21,7 +21,7 @@ def chat():
     prompt = f"以下は医療とDXに関連する会話です:\nUser: {user_input}\nBot:"
     try:
         response = openai.Completion.create(
-            engine="text-davinci-003",
+            model="gpt-3.5-turbo",
             prompt=prompt,
             max_tokens=150
         )
