@@ -18,7 +18,7 @@ def index():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json['user_input']
-    prompt = f"以下は病院のDX（デジタルトランスフォーメーション）に関連する会話です:\nUser: {user_input}\nBot:"
+    prompt = f"以下は病院のDX（デジタルトランスフォーメーション）に関連する会話です。関西弁で回答し、エビデンスを示してください。:\nUser: {user_input}\nBot:"
     try:
         response = openai.Completion.create(
             engine="text-davinci-003",
